@@ -238,6 +238,7 @@ def build_call_graph(functions):
     return graph
 
 
+
 def trace_function(name, function_map, graph, visited=None, depth=0):
 
     if visited is None:
@@ -246,7 +247,7 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
     if name in visited:
         return [{
             "depth": depth,
-            "message": f"{name}() already visited; possible recursive call."
+            "message": f"{name}() already visited. Possible recursion."
         }]
 
     if name not in function_map:
@@ -262,42 +263,92 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
     results = [{
         "depth": depth,
         "message": (
-            f"Function {name}() defined at line {function['line']}."
+            f"Function {name}() defined at line "
+            f"{function['line']}."
         )
     }]
 
-    for call in graph.get(name, []):
+    body = function["body"]
+    lines = body.splitlines()
 
-        called_name = call["name"]
+    for index, line in enumerate(lines):
 
-        results.append({
-            "depth": depth + 1,
-            "message": f"Calls {called_name}()."
-        })
+        statement = line.strip()
 
-        if called_name in function_map:
+        if not statement or statement.startswith("//"):
+            continue
 
-            nested = trace_function(
-                called_name,
-                function_map,
-                graph,
-                visited,
-                depth + 2
-            )
-
-            results.extend(nested)
-
-        else:
-
+        # Console output
+        if re.search(r'console\.log\s*\(', statement):
             results.append({
-                "depth": depth + 2,
-                "message": (
-                    f"{called_name}() definition is not available "
-                    "in this file."
-                )
+                "depth": depth + 1,
+                "message": "Displays a message in the browser console."
             })
 
+        # Conditions
+        elif re.match(r'if\s*\(', statement):
+            results.append({
+                "depth": depth + 1,
+                "message": "Checks a condition."
+            })
+
+        # UI selection
+        elif re.search(r'\$\s*\(', statement):
+            results.append({
+                "depth": depth + 1,
+                "message": "Selects an HTML element using jQuery."
+            })
+
+        # Form submission
+        if re.search(r'\.submit\s*\(', statement):
+            results.append({
+                "depth": depth + 1,
+                "message": "Submits the selected HTML form."
+            })
+
+        # jQuery selector
+        elif re.search(r'\$\s*\(', statement):
+            results.append({
+                "depth": depth + 1,
+                "message": "Selects an HTML element using jQuery."
+            })
+
+        # Other function calls
+        calls = extract_function_calls(statement)
+
+        for call in calls:
+
+            called_name = call["name"]
+
+            results.append({
+                "depth": depth + 1,
+                "message": f"Calls {called_name}()."
+            })
+
+            if called_name in function_map:
+
+                nested = trace_function(
+                    called_name,
+                    function_map,
+                    graph,
+                    visited,
+                    depth + 2
+                )
+
+                results.extend(nested)
+
+            else:
+
+                results.append({
+                    "depth": depth + 2,
+                    "message": (
+                        f"{called_name}() definition not found "
+                        "in this file."
+                    )
+                })
+
     return results
+
 
 
 def analyze_javascript(code, start_line=1):

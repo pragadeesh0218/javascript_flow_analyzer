@@ -65,5 +65,7 @@ Registered at line: 4
     - Function processForm() defined at line 9.
         - Calls validateInput().
             - Function validateInput() defined at line 14.
+                - Displays a message in the browser console.
         - Calls submitData().
             - Function submitData() defined at line 18.
+                - Selects an HTML element using jQuery.
