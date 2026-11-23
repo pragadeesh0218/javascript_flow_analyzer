@@ -4,25 +4,22 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 4: Defines the function validateForm.
-Code: function validateForm() {
-
-Line 5: Checks a condition before executing code.
-Code: if ($("#username").val() == "") {
-
-Line 6: Calls the function alert().
-Code: alert("Enter username");
-
-Line 13: Registers a click event handler.
+Line 4: Registers a click event handler.
 Code: $("#btnContinue").on("click", function () {
 
-Line 14: Calls the function OLTCallLoader().
-Code: OLTCallLoader();
+Line 9: Defines the function processForm.
+Code: function processForm() {
 
-Line 15: Gets or changes the value of an input or selected element.
-Code: $Opt.val("IMPORT_NO_PDF");
+Line 14: Defines the function validateInput.
+Code: function validateInput() {
 
-Line 16: Submits the selected form.
+Line 15: Displays a message in the browser console.
+Code: console.log("Validating");
+
+Line 18: Defines the function submitData.
+Code: function submitData() {
+
+Line 19: Selects an HTML element using a jQuery selector.
 Code: $("#myForm").submit();
 
 
@@ -37,4 +34,36 @@ Code: $("#myForm").submit();
 Found 1 internal script blocks.
 Found 0 inline event handlers.
 Found 0 external JS references.
-Generated 7 code explanations.
+Generated 6 code explanations.
+
+5. FUNCTION DEFINITIONS
+
+Function: processForm()
+Defined at line: 9
+Parameters: None
+
+Function: validateInput()
+Defined at line: 14
+Parameters: None
+
+Function: submitData()
+Defined at line: 18
+Parameters: None
+
+
+6. EVENT-TO-FUNCTION FLOW
+
+Event: click
+Type: jQuery
+Element: $("#btnContinue")
+Registered at line: 4
+
+  Calls: OLTCallLoader()
+    - Function definition not found in this input file.
+
+  Calls: processForm()
+    - Function processForm() defined at line 9.
+        - Calls validateInput().
+            - Function validateInput() defined at line 14.
+        - Calls submitData().
+            - Function submitData() defined at line 18.

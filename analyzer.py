@@ -2,6 +2,304 @@
 import re
 
 
+# JavaScript keywords that should not be treated as function calls
+IGNORED_CALLS = {
+    # JavaScript keywords
+    "if", "else", "for", "while", "switch",
+    "catch", "function", "return", "typeof",
+    "new", "throw", "try", "do", "await",
+    "delete", "void",
+
+    # Browser and JavaScript built-ins
+    "alert", "confirm", "prompt",
+    "parseInt", "parseFloat",
+    "setTimeout", "setInterval",
+    "clearTimeout", "clearInterval",
+
+    # Console methods
+    "log", "error", "warn", "info",
+
+    # jQuery selector
+    "$", "jQuery"
+}
+
+
+def find_matching_brace(code, open_pos):
+    """
+    Find the closing brace corresponding to an opening brace.
+    Handles basic strings and comments.
+    """
+
+    depth = 0
+    quote = None
+    escaped = False
+    line_comment = False
+    block_comment = False
+
+    i = open_pos
+
+    while i < len(code):
+
+        char = code[i]
+        next_char = code[i + 1] if i + 1 < len(code) else ""
+
+        if line_comment:
+            if char == "\n":
+                line_comment = False
+
+        elif block_comment:
+            if char == "*" and next_char == "/":
+                block_comment = False
+                i += 1
+
+        elif quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+
+        elif char == "/" and next_char == "/":
+            line_comment = True
+            i += 1
+
+        elif char == "/" and next_char == "*":
+            block_comment = True
+            i += 1
+
+        elif char in ("'", '"', "`"):
+            quote = char
+
+        elif char == "{":
+            depth += 1
+
+        elif char == "}":
+            depth -= 1
+
+            if depth == 0:
+                return i
+
+        i += 1
+
+    return None
+
+
+def extract_functions(code, start_line=1):
+
+    functions = []
+
+    pattern = re.compile(
+        r'\bfunction\s+([A-Za-z_$][\w$]*)\s*'
+        r'\(([^)]*)\)\s*\{'
+    )
+
+    for match in pattern.finditer(code):
+
+        name = match.group(1)
+        parameters = match.group(2)
+
+        open_pos = match.end() - 1
+        close_pos = find_matching_brace(code, open_pos)
+
+        if close_pos is None:
+            continue
+
+        body = code[open_pos + 1:close_pos]
+
+        line = start_line + code[:match.start()].count("\n")
+
+        functions.append({
+            "name": name,
+            "parameters": parameters,
+            "line": line,
+            "body": body
+        })
+
+    return functions
+
+
+
+def extract_function_calls(code):
+
+    calls = []
+
+    pattern = re.compile(
+        r'(?<![.\w$])([A-Za-z_$][\w$]*)\s*\('
+    )
+
+    for match in pattern.finditer(code):
+
+        name = match.group(1)
+
+        if name in IGNORED_CALLS:
+            continue
+
+        # Ignore function declarations
+        prefix = code[:match.start()].rstrip()
+
+        if re.search(r'\bfunction\s*$', prefix):
+            continue
+
+        # Ignore object methods such as console.log()
+        if match.start() > 0 and code[match.start() - 1] == ".":
+            continue
+
+        calls.append({
+            "name": name,
+            "position": match.start()
+        })
+
+    # Remove duplicates while preserving order
+    unique_calls = []
+    seen = set()
+
+    for call in calls:
+
+        if call["name"] not in seen:
+            unique_calls.append(call)
+            seen.add(call["name"])
+
+    return unique_calls
+
+
+def extract_event_handlers(code, start_line=1):
+
+    events = []
+
+    patterns = [
+        (
+            r'\.on\s*\(\s*["\'](\w+)["\']\s*,\s*'
+            r'function\s*\([^)]*\)\s*\{',
+            "jQuery"
+        ),
+        (
+            r'\.addEventListener\s*\(\s*["\'](\w+)["\']'
+            r'\s*,\s*function\s*\([^)]*\)\s*\{',
+            "DOM"
+        )
+    ]
+
+    for pattern, event_type in patterns:
+
+        for match in re.finditer(pattern, code):
+
+            event_name = match.group(1)
+
+            open_pos = match.end() - 1
+            close_pos = find_matching_brace(code, open_pos)
+
+            if close_pos is None:
+                continue
+
+            body = code[open_pos + 1:close_pos]
+
+            line = (
+                start_line +
+                code[:match.start()].count("\n")
+            )
+
+            # Find the selector for jQuery events
+            selector = "Unknown element"
+
+            if event_type == "jQuery":
+
+                before = code[:match.start()]
+
+                selector_match = re.search(
+                    r'(\$\s*\(\s*["\'][^"\']+["\']\s*\))\s*$',
+                    before
+                )
+
+                if selector_match:
+                    selector = selector_match.group(1)
+
+            events.append({
+                "event": event_name,
+                "type": event_type,
+                "selector": selector,
+                "line": line,
+                "body": body
+            })
+
+    return events
+
+
+def build_call_graph(functions):
+
+    graph = {}
+
+    for function in functions:
+
+        calls = extract_function_calls(function["body"])
+
+        graph[function["name"]] = calls
+
+    return graph
+
+
+def trace_function(name, function_map, graph, visited=None, depth=0):
+
+    if visited is None:
+        visited = set()
+
+    if name in visited:
+        return [{
+            "depth": depth,
+            "message": f"{name}() already visited; possible recursive call."
+        }]
+
+    if name not in function_map:
+        return [{
+            "depth": depth,
+            "message": f"{name}() definition not found in this file."
+        }]
+
+    visited = visited | {name}
+
+    function = function_map[name]
+
+    results = [{
+        "depth": depth,
+        "message": (
+            f"Function {name}() defined at line {function['line']}."
+        )
+    }]
+
+    for call in graph.get(name, []):
+
+        called_name = call["name"]
+
+        results.append({
+            "depth": depth + 1,
+            "message": f"Calls {called_name}()."
+        })
+
+        if called_name in function_map:
+
+            nested = trace_function(
+                called_name,
+                function_map,
+                graph,
+                visited,
+                depth + 2
+            )
+
+            results.extend(nested)
+
+        else:
+
+            results.append({
+                "depth": depth + 2,
+                "message": (
+                    f"{called_name}() definition is not available "
+                    "in this file."
+                )
+            })
+
+    return results
+
+
 def analyze_javascript(code, start_line=1):
 
     results = []
@@ -18,92 +316,52 @@ def analyze_javascript(code, start_line=1):
 
         explanation = None
 
-        # 1. Event listeners
         if re.search(r'\.on\s*\(\s*["\'](\w+)["\']', statement):
             match = re.search(
                 r'\.on\s*\(\s*["\'](\w+)["\']',
                 statement
             )
-            event = match.group(1)
-            explanation = f"Registers a {event} event handler."
+            explanation = f"Registers a {match.group(1)} event handler."
 
-        elif re.search(r'\.addEventListener\s*\(', statement):
-            match = re.search(
-                r'\.addEventListener\s*\(\s*["\'](\w+)["\']',
-                statement
-            )
-            if match:
-                explanation = (
-                    f"Registers a {match.group(1)} event listener."
-                )
-
-        # 2. Function declarations
-        elif re.search(r'\bfunction\s+(\w+)\s*\(', statement):
-            match = re.search(
-                r'\bfunction\s+(\w+)\s*\(',
-                statement
-            )
+        elif re.match(r'^\s*function\s+\w+', statement):
+            match = re.search(r'function\s+(\w+)', statement)
             explanation = f"Defines the function {match.group(1)}."
 
-        # 3. Conditional statements
         elif re.match(r'^\s*if\s*\(', statement):
-            explanation = "Checks a condition before executing code."
-
-        elif re.match(r'^\s*else\s+if\s*\(', statement):
-            explanation = "Checks another condition if the previous condition was false."
+            explanation = "Checks a condition."
 
         elif re.match(r'^\s*else\b', statement):
-            explanation = "Executes the alternative branch."
+            explanation = "Executes an alternative branch."
 
-        # 4. UI changes
+        elif re.search(r'\$\s*\(', statement):
+            explanation = "Selects an HTML element using a jQuery selector."
+
+        elif re.search(r'console\.log\s*\(', statement):
+            explanation = "Displays a message in the browser console."
+
         elif re.search(r'\.hide\s*\(', statement):
-            explanation = "Hides the selected HTML element."
+            explanation = "Hides an HTML element."
 
         elif re.search(r'\.show\s*\(', statement):
-            explanation = "Displays the selected HTML element."
+            explanation = "Displays an HTML element."
 
         elif re.search(r'\.val\s*\(', statement):
-            explanation = "Gets or changes the value of an input or selected element."
+            explanation = "Gets or changes an element value."
 
-        elif re.search(r'\.prop\s*\(', statement):
-            explanation = "Changes or reads an HTML element property."
-
-        elif re.search(r'\.attr\s*\(', statement):
-            explanation = "Gets or changes an HTML attribute."
-
-        # 5. Form submission
         elif re.search(r'\.submit\s*\(', statement):
-            explanation = "Submits the selected form."
+            explanation = "Submits a form."
 
-        # 6. AJAX / API calls
         elif re.search(r'\$\.ajax\s*\(', statement):
-            explanation = "Starts an AJAX request to communicate with a server."
+            explanation = "Starts an AJAX request."
 
         elif re.search(r'\bfetch\s*\(', statement):
-            explanation = "Starts an HTTP request using fetch()."
+            explanation = "Starts an HTTP request."
 
-        elif re.search(r'\.post\s*\(', statement):
-            explanation = "Sends an HTTP POST request."
-
-        elif re.search(r'\.get\s*\(', statement):
-            explanation = "Sends an HTTP GET request."
-
-        # 7. Page navigation
         elif re.search(r'window\.location|location\.href', statement):
-            explanation = "Changes the browser's current page or URL."
-
-        # 8. Function calls
-        elif re.search(r'^\$?\w+\s*\([^)]*\)\s*;?$', statement):
-            match = re.match(
-                r'^\$?(\w+)\s*\(',
-                statement
-            )
-            if match:
-                name = match.group(1)
-                if name not in ("if", "for", "while", "switch"):
-                    explanation = f"Calls the function {name}()."
+            explanation = "Changes the browser URL."
 
         if explanation:
+
             results.append({
                 "line": current_line,
                 "code": statement,

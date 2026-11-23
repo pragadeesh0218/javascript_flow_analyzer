@@ -1,8 +1,14 @@
-
 from pathlib import Path
 
 from parser import extract_javascript
-from analyzer import analyze_javascript
+from analyzer import (
+    analyze_javascript,
+    extract_functions,
+    extract_function_calls,
+    extract_event_handlers,
+    build_call_graph,
+    trace_function
+)
 from explainer import generate_report
 
 
@@ -21,38 +27,116 @@ def main():
 
     print("Starting JavaScript Flow Analyzer...")
 
-    # Step 1: Parse HTML/PHP
     parsed_data = extract_javascript(input_path)
 
-    # Step 2: Analyze internal scripts
+    all_functions = []
+    all_events = []
     analysis_results = []
 
+    # Analyze internal script blocks
     for script in parsed_data["scripts"]:
 
-        results = analyze_javascript(
-            script["code"],
-            script["line"]
+        code = script["code"]
+        start_line = script["line"]
+
+        all_functions.extend(
+            extract_functions(code, start_line)
         )
 
-        analysis_results.extend(results)
+        all_events.extend(
+            extract_event_handlers(code, start_line)
+        )
 
-    # Step 3: Analyze inline event handlers
+        analysis_results.extend(
+            analyze_javascript(code, start_line)
+        )
+
+    # Analyze inline HTML event handlers
     for event in parsed_data["inline_events"]:
 
-        results = analyze_javascript(
-            event["code"],
-            event["line"] or 1
-        )
+        all_events.append({
+            "event": event["event"][2:],
+            "type": "HTML inline",
+            "selector": event["element"],
+            "line": event["line"] or 1,
+            "body": event["code"]
+        })
 
-        analysis_results.extend(results)
+    # Create function lookup and call graph
+    function_map = {
+        function["name"]: function
+        for function in all_functions
+    }
 
-    # Step 4: Generate report
+    graph = build_call_graph(all_functions)
+
+    # Generate normal report
     report = generate_report(
         parsed_data,
         analysis_results
     )
 
-    # Step 5: Save report
+    # Add function definitions
+    report += "\n\n5. FUNCTION DEFINITIONS\n"
+
+    for function in all_functions:
+
+        report += (
+            f"\nFunction: {function['name']}()\n"
+            f"Defined at line: {function['line']}\n"
+            f"Parameters: {function['parameters'] or 'None'}\n"
+        )
+
+    # Add event execution flow
+    report += "\n\n6. EVENT-TO-FUNCTION FLOW\n"
+
+    if not all_events:
+        report += "\nNo supported event handlers found.\n"
+
+    for event in all_events:
+
+        report += (
+            f"\nEvent: {event['event']}\n"
+            f"Type: {event['type']}\n"
+            f"Element: {event['selector']}\n"
+            f"Registered at line: {event['line']}\n"
+        )
+
+        calls = extract_function_calls(event["body"])
+
+        if not calls:
+            report += "No direct function calls identified.\n"
+
+        for call in calls:
+
+            name = call["name"]
+
+            report += f"\n  Calls: {name}()\n"
+
+            if name in function_map:
+
+                trace = trace_function(
+                    name,
+                    function_map,
+                    graph
+                )
+
+                for item in trace:
+
+                    indent = "    " * (item["depth"] + 1)
+
+                    report += (
+                        f"{indent}- {item['message']}\n"
+                    )
+
+            else:
+
+                report += (
+                    "    - Function definition not found "
+                    "in this input file.\n"
+                )
+
+    # Save report
     output_path.parent.mkdir(
         parents=True,
         exist_ok=True
@@ -64,6 +148,8 @@ def main():
     )
 
     print("\nAnalysis completed!")
+    print(f"Functions identified: {len(all_functions)}")
+    print(f"Events identified: {len(all_events)}")
     print(f"Report saved to: {output_path}")
 
     print("\n" + report)

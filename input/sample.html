@@ -1,20 +1,23 @@
 <html>
 <head>
     <script>
-        function validateForm() {
-            if ($("#username").val() == "") {
-                alert("Enter username");
-                return false;
-            }
+       $("#btnContinue").on("click", function () {
+        OLTCallLoader();
+        processForm();
+        });
 
-            return true;
+        function processForm() {
+            validateInput();
+            submitData();
         }
 
-        $("#btnContinue").on("click", function () {
-            OLTCallLoader();
-            $Opt.val("IMPORT_NO_PDF");
+        function validateInput() {
+            console.log("Validating");
+        }
+
+        function submitData() {
             $("#myForm").submit();
-        });
+        }
     </script>
 </head>
 <body>
