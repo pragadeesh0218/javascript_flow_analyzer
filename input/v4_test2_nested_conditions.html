@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V4 Test 2 - Nested Conditions</title>
+
+    <script>
+        $("#btnSubmit").on("click", function () {
+            processForm();
+        });
+
+        function processForm() {
+
+            let username = $("#username").val();
+            let age = 20;
+
+            if (username === "") {
+                showError();
+            }
+
+            else if (age < 18) {
+                showAgeError();
+            }
+
+            else {
+                validateUser();
+            }
+        }
+
+        function validateUser() {
+
+            let age = 20;
+
+            if (age >= 18) {
+
+                if (age >= 21) {
+                    submitData();
+                }
+
+                else {
+                    showAgeError();
+                }
+            }
+
+            else {
+                showError();
+            }
+        }
+
+        function submitData() {
+            $("#myForm").submit();
+        }
+
+        function showError() {
+            alert("Username is required");
+        }
+
+        function showAgeError() {
+            alert("Age requirement not met");
+        }
+    </script>
+</head>
+<body>
+    <form id="myForm">
+        <input type="text" id="username">
+        <button type="button" id="btnSubmit">Submit</button>
+    </form>
+</body>
+</html>

@@ -12,7 +12,7 @@ from analyzer import (
 from explainer import generate_report
 
 
-INPUT_FILE = "input/sample.html"
+INPUT_FILE = "input/v4_test3_return_paths.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 

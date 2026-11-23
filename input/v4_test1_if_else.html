@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V4 Test 1 - IF ELSE</title>
+
+    <script>
+        $("#btnContinue").on("click", function () {
+            validateForm();
+        });
+
+        function validateForm() {
+
+            let username = $("#username").val();
+
+            if (username === "") {
+                alert("Username is required");
+                return false;
+            }
+
+            else {
+                saveData();
+                return true;
+            }
+        }
+
+        function saveData() {
+            console.log("Saving data");
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="username">
+    <button id="btnContinue">Continue</button>
+</body>
+</html>

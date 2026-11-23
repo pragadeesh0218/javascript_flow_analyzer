@@ -257,7 +257,6 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
         }]
 
     visited = visited | {name}
-
     function = function_map[name]
 
     results = [{
@@ -271,57 +270,224 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
     body = function["body"]
     lines = body.splitlines()
 
-    for index, line in enumerate(lines):
+    # Tracks the currently open IF / ELSE branches.
+    branch_stack = []
+
+    for line in lines:
 
         statement = line.strip()
 
         if not statement or statement.startswith("//"):
             continue
 
+        # Remove leading closing braces and close previous branches.
+        leading_closes = len(statement) - len(statement.lstrip("}"))
+
+        for _ in range(leading_closes):
+            if branch_stack:
+                branch_stack.pop()
+
+        # Remove closing braces from the beginning of the statement.
+        statement = statement.lstrip("}").strip()
+
+        if not statement:
+            continue
+
+        current_depth = depth + 1 + len(branch_stack)
+
+        # ELSE IF condition
+        else_if_match = re.match(
+            r'else\s+if\s*\((.*)\)\s*\{?',
+            statement
+        )
+
+        # IF condition
+        if_match = re.match(
+            r'if\s*\((.*)\)\s*\{?',
+            statement
+        )
+
+        # ELSE branch
+        is_else = re.match(r'else\s*\{?', statement)
+
+        if else_if_match:
+
+            condition = else_if_match.group(1).strip()
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    f"Checks ELSE IF condition: {condition}. "
+                    "This is evaluated when the previous IF branch "
+                    "was not taken."
+                )
+            })
+
+            results.append({
+                "depth": current_depth + 1,
+                "message": (
+                    "If this ELSE IF condition is TRUE, "
+                    "executes this branch."
+                )
+            })
+
+            branch_stack.append("ELSE IF")
+
+        elif if_match:
+
+            condition = if_match.group(1).strip()
+
+            results.append({
+                "depth": current_depth,
+                "message": f"Checks IF condition: {condition}."
+            })
+
+            # Detect function calls inside the condition
+            condition_calls = extract_function_calls(condition)
+
+            for call in condition_calls:
+
+                called_name = call["name"]
+
+                results.append({
+                    "depth": current_depth + 1,
+                    "message": (
+                        f"Calls {called_name}() to evaluate the condition."
+                    )
+                })
+
+                if called_name in function_map:
+
+                    nested = trace_function(
+                        called_name,
+                        function_map,
+                        graph,
+                        visited,
+                        current_depth + 2
+                    )
+
+                    results.extend(nested)
+
+                else:
+
+                    results.append({
+                        "depth": current_depth + 2,
+                        "message": (
+                            f"{called_name}() definition not found "
+                            "in this input file."
+                        )
+                    })
+
+            results.append({
+                "depth": current_depth + 1,
+                "message": (
+                    "If this IF condition is TRUE, "
+                    "executes this branch."
+                )
+            })
+
+            branch_stack.append("IF")
+
+        elif is_else:
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    "If the preceding IF condition is FALSE, "
+                    "executes this ELSE branch."
+                )
+            })
+
+            branch_stack.append("ELSE")
+
+        # Return statements
+        return_match = re.match(
+            r'return(?:\s+(.*?))?;?$',
+            statement
+        )
+
+        if return_match:
+
+            return_value = return_match.group(1)
+
+            if return_value:
+                results.append({
+                    "depth": current_depth,
+                    "message": (
+                        f"Returns {return_value.rstrip(';')} "
+                        "from the function and exits this function."
+                    )
+                })
+
+            else:
+                results.append({
+                    "depth": current_depth,
+                    "message": (
+                        "Returns from the function and exits this function."
+                    )
+                })
+
         # Console output
         if re.search(r'console\.log\s*\(', statement):
+
             results.append({
-                "depth": depth + 1,
+                "depth": current_depth,
                 "message": "Displays a message in the browser console."
             })
 
-        # Conditions
-        elif re.match(r'if\s*\(', statement):
-            results.append({
-                "depth": depth + 1,
-                "message": "Checks a condition."
-            })
+        # jQuery selector
+        if re.search(r'\$\s*\(', statement):
 
-        # UI selection
-        elif re.search(r'\$\s*\(', statement):
             results.append({
-                "depth": depth + 1,
+                "depth": current_depth,
                 "message": "Selects an HTML element using jQuery."
             })
 
         # Form submission
         if re.search(r'\.submit\s*\(', statement):
+
             results.append({
-                "depth": depth + 1,
+                "depth": current_depth,
                 "message": "Submits the selected HTML form."
             })
 
-        # jQuery selector
-        elif re.search(r'\$\s*\(', statement):
+        # Show and hide
+        if re.search(r'\.hide\s*\(', statement):
+
             results.append({
-                "depth": depth + 1,
-                "message": "Selects an HTML element using jQuery."
+                "depth": current_depth,
+                "message": "Hides an HTML element."
             })
 
-        # Other function calls
-        calls = extract_function_calls(statement)
+        if re.search(r'\.show\s*\(', statement):
 
+            results.append({
+                "depth": current_depth,
+                "message": "Displays an HTML element."
+            })
+
+        # Browser navigation
+        if re.search(r'window\.location|location\.href', statement):
+
+            results.append({
+                "depth": current_depth,
+                "message": "Changes the browser URL."
+            })
+
+        # Function calls
+        # Avoid tracing condition calls a second time.
+        if if_match or else_if_match:
+            calls = []
+        else:
+            calls = extract_function_calls(statement)
+
+            
         for call in calls:
 
             called_name = call["name"]
 
             results.append({
-                "depth": depth + 1,
+                "depth": current_depth,
                 "message": f"Calls {called_name}()."
             })
 
@@ -332,7 +498,7 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                     function_map,
                     graph,
                     visited,
-                    depth + 2
+                    current_depth + 1
                 )
 
                 results.extend(nested)
@@ -340,15 +506,14 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
             else:
 
                 results.append({
-                    "depth": depth + 2,
+                    "depth": current_depth + 1,
                     "message": (
                         f"{called_name}() definition not found "
-                        "in this file."
+                        "in this input file."
                     )
                 })
 
     return results
-
 
 
 def analyze_javascript(code, start_line=1):
@@ -367,49 +532,92 @@ def analyze_javascript(code, start_line=1):
 
         explanation = None
 
-        if re.search(r'\.on\s*\(\s*["\'](\w+)["\']', statement):
-            match = re.search(
-                r'\.on\s*\(\s*["\'](\w+)["\']',
-                statement
-            )
-            explanation = f"Registers a {match.group(1)} event handler."
+        # Event registration
+        event_match = re.search(
+            r'\.on\s*\(\s*["\'](\w+)["\']',
+            statement
+        )
 
-        elif re.match(r'^\s*function\s+\w+', statement):
+        if event_match:
+            explanation = (
+                f"Registers a {event_match.group(1)} event handler."
+            )
+
+        # Function declaration
+        elif re.match(r'^function\s+\w+', statement):
+
             match = re.search(r'function\s+(\w+)', statement)
+
             explanation = f"Defines the function {match.group(1)}."
 
-        elif re.match(r'^\s*if\s*\(', statement):
-            explanation = "Checks a condition."
+        # ELSE IF must be checked before ELSE
+        elif re.match(r'^else\s+if\s*\(', statement):
 
-        elif re.match(r'^\s*else\b', statement):
-            explanation = "Executes an alternative branch."
+            explanation = "Checks an ELSE IF condition."
 
+        # IF condition
+        elif re.match(r'^if\s*\(', statement):
+
+            explanation = "Checks an IF condition."
+
+        # ELSE branch
+        elif re.match(r'^else\b', statement):
+
+            explanation = "Executes an alternative ELSE branch."
+
+        # jQuery selector
         elif re.search(r'\$\s*\(', statement):
-            explanation = "Selects an HTML element using a jQuery selector."
 
+            explanation = (
+                "Selects an HTML element using a jQuery selector."
+            )
+
+        # Console output
         elif re.search(r'console\.log\s*\(', statement):
-            explanation = "Displays a message in the browser console."
 
+            explanation = (
+                "Displays a message in the browser console."
+            )
+
+        # Hide element
         elif re.search(r'\.hide\s*\(', statement):
+
             explanation = "Hides an HTML element."
 
+        # Show element
         elif re.search(r'\.show\s*\(', statement):
+
             explanation = "Displays an HTML element."
 
+        # Get or set element value
         elif re.search(r'\.val\s*\(', statement):
+
             explanation = "Gets or changes an element value."
 
+        # Form submission
         elif re.search(r'\.submit\s*\(', statement):
+
             explanation = "Submits a form."
 
+        # AJAX request
         elif re.search(r'\$\.ajax\s*\(', statement):
+
             explanation = "Starts an AJAX request."
 
+        # Fetch request
         elif re.search(r'\bfetch\s*\(', statement):
+
             explanation = "Starts an HTTP request."
 
+        # Browser navigation
         elif re.search(r'window\.location|location\.href', statement):
+
             explanation = "Changes the browser URL."
+
+        # Return statement
+        elif re.match(r'^return\b', statement):
+
+            explanation = "Returns a value from the current function."
 
         if explanation:
 

@@ -4,23 +4,56 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 4: Registers a click event handler.
-Code: $("#btnContinue").on("click", function () {
+Line 8: Registers a click event handler.
+Code: $("#btnLogin").on("click", function () {
 
-Line 9: Defines the function processForm.
-Code: function processForm() {
+Line 12: Defines the function login.
+Code: function login() {
 
-Line 14: Defines the function validateInput.
-Code: function validateInput() {
+Line 14: Selects an HTML element using a jQuery selector.
+Code: let username = $("#username").val();
 
-Line 15: Displays a message in the browser console.
-Code: console.log("Validating");
+Line 15: Selects an HTML element using a jQuery selector.
+Code: let password = $("#password").val();
 
-Line 18: Defines the function submitData.
-Code: function submitData() {
+Line 17: Checks an IF condition.
+Code: if (username === "") {
 
-Line 19: Selects an HTML element using a jQuery selector.
-Code: $("#myForm").submit();
+Line 19: Returns a value from the current function.
+Code: return false;
+
+Line 22: Checks an IF condition.
+Code: if (password === "") {
+
+Line 24: Returns a value from the current function.
+Code: return false;
+
+Line 27: Checks an IF condition.
+Code: if (checkCredentials()) {
+
+Line 29: Returns a value from the current function.
+Code: return true;
+
+Line 32: Executes an alternative ELSE branch.
+Code: else {
+
+Line 34: Returns a value from the current function.
+Code: return false;
+
+Line 38: Defines the function checkCredentials.
+Code: function checkCredentials() {
+
+Line 39: Displays a message in the browser console.
+Code: console.log("Checking credentials");
+
+Line 40: Returns a value from the current function.
+Code: return true;
+
+Line 43: Defines the function openDashboard.
+Code: function openDashboard() {
+
+Line 44: Changes the browser URL.
+Code: window.location.href = "dashboard.php";
 
 
 2. INLINE EVENT HANDLERS
@@ -34,20 +67,20 @@ Code: $("#myForm").submit();
 Found 1 internal script blocks.
 Found 0 inline event handlers.
 Found 0 external JS references.
-Generated 6 code explanations.
+Generated 17 code explanations.
 
 5. FUNCTION DEFINITIONS
 
-Function: processForm()
-Defined at line: 9
+Function: login()
+Defined at line: 12
 Parameters: None
 
-Function: validateInput()
-Defined at line: 14
+Function: checkCredentials()
+Defined at line: 38
 Parameters: None
 
-Function: submitData()
-Defined at line: 18
+Function: openDashboard()
+Defined at line: 43
 Parameters: None
 
 
@@ -55,17 +88,28 @@ Parameters: None
 
 Event: click
 Type: jQuery
-Element: $("#btnContinue")
-Registered at line: 4
+Element: $("#btnLogin")
+Registered at line: 8
 
-  Calls: OLTCallLoader()
-    - Function definition not found in this input file.
-
-  Calls: processForm()
-    - Function processForm() defined at line 9.
-        - Calls validateInput().
-            - Function validateInput() defined at line 14.
-                - Displays a message in the browser console.
-        - Calls submitData().
-            - Function submitData() defined at line 18.
-                - Selects an HTML element using jQuery.
+  Calls: login()
+    - Function login() defined at line 12.
+        - Selects an HTML element using jQuery.
+        - Selects an HTML element using jQuery.
+        - Checks IF condition: username === "".
+            - If this IF condition is TRUE, executes this branch.
+            - Returns false from the function and exits this function.
+        - Checks IF condition: password === "".
+            - If this IF condition is TRUE, executes this branch.
+            - Returns false from the function and exits this function.
+        - Checks IF condition: checkCredentials().
+            - Calls checkCredentials() to evaluate the condition.
+                - Function checkCredentials() defined at line 38.
+                    - Displays a message in the browser console.
+                    - Returns true from the function and exits this function.
+            - If this IF condition is TRUE, executes this branch.
+            - Calls openDashboard().
+                - Function openDashboard() defined at line 43.
+                    - Changes the browser URL.
+            - Returns true from the function and exits this function.
+        - If the preceding IF condition is FALSE, executes this ELSE branch.
+            - Returns false from the function and exits this function.
