@@ -1,0 +1,40 @@
+============================================================
+JAVASCRIPT FLOW ANALYSIS REPORT
+============================================================
+
+1. JAVASCRIPT EXECUTION ANALYSIS
+
+Line 4: Defines the function validateForm.
+Code: function validateForm() {
+
+Line 5: Checks a condition before executing code.
+Code: if ($("#username").val() == "") {
+
+Line 6: Calls the function alert().
+Code: alert("Enter username");
+
+Line 13: Registers a click event handler.
+Code: $("#btnContinue").on("click", function () {
+
+Line 14: Calls the function OLTCallLoader().
+Code: OLTCallLoader();
+
+Line 15: Gets or changes the value of an input or selected element.
+Code: $Opt.val("IMPORT_NO_PDF");
+
+Line 16: Submits the selected form.
+Code: $("#myForm").submit();
+
+
+2. INLINE EVENT HANDLERS
+
+
+3. EXTERNAL JAVASCRIPT FILES
+
+
+4. OVERALL SUMMARY
+
+Found 1 internal script blocks.
+Found 0 inline event handlers.
+Found 0 external JS references.
+Generated 7 code explanations.
