@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V7 Nested Function Test</title>
+</head>
+<body>
+
+    <h2>Login Test</h2>
+
+    <button id="btnLogin">Login</button>
+
+    <script>
+
+        $("#btnLogin").on("click", function(event) {
+
+            event.preventDefault();
+
+            startLogin();
+
+        });
+
+
+        function startLogin() {
+
+            validateInputs();
+
+            submitLogin();
+
+        }
+
+
+        function validateInputs() {
+
+            validateUsername();
+
+            validatePassword();
+
+        }
+
+
+        function validateUsername() {
+
+            console.log("Checking username");
+
+        }
+
+
+        function validatePassword() {
+
+            console.log("Checking password");
+
+        }
+
+
+        function submitLogin() {
+
+            sendLoginRequest();
+
+        }
+
+
+        function sendLoginRequest() {
+
+            console.log("Sending login request");
+
+        }
+
+    </script>
+
+</body>
+</html>

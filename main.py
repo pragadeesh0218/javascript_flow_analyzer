@@ -5,7 +5,7 @@ from v6_analyzer import (
     analyze_event_actions,
     analyze_navigation
 )
-
+from v7_analyzer import build_execution_flow
 from backend_analyzer import detect_backend_requests
 from php_analyzer import analyze_php_file
 
@@ -27,7 +27,7 @@ from explainer import generate_report
 # CONFIGURATION
 # =========================================================
 
-INPUT_FILE = "input/v6_test2_navigation.html"
+INPUT_FILE = "input/v7_test2_multiple_calls.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 
@@ -417,7 +417,39 @@ def main():
         )
 
     # -----------------------------------------------------
-    # 11. SAVE REPORT
+    # 11. V7 APPLICATION EXECUTION FLOW
+    # -----------------------------------------------------
+
+    report += "\n\n11. V7 APPLICATION EXECUTION FLOW\n"
+
+    execution_flows = build_execution_flow(
+        all_events,
+        all_functions
+    )
+
+    if not execution_flows:
+
+        report += "\nNo event-driven execution flows found.\n"
+
+    for flow in execution_flows:
+
+        report += (
+            f"\nEvent: {flow['event']}\n"
+            f"Type: {flow['type']}\n"
+            f"Element: {flow['element']}\n"
+            f"Registered at line: {flow['line']}\n"
+        )
+
+        for step in flow["steps"]:
+
+            indent = "    " * (step["depth"] + 1)
+
+            report += (
+                f"{indent}-> {step['message']}\n"
+            )
+
+    # -----------------------------------------------------
+    # 12. SAVE REPORT
     # -----------------------------------------------------
 
     output_path.parent.mkdir(

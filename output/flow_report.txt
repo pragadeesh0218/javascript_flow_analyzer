@@ -4,14 +4,32 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 18: Changes the browser URL.
-Code: window.location.href = "dashboard.php";
+Line 25: Defines the function prepareData.
+Code: function prepareData() {
 
-Line 29: Defines the function navigateToProfile.
-Code: function navigateToProfile() {
+Line 34: Defines the function normalizeData.
+Code: function normalizeData() {
 
-Line 31: Changes the browser URL.
-Code: window.location.assign("profile.php");
+Line 36: Displays a message in the browser console.
+Code: console.log("Normalizing data");
+
+Line 41: Defines the function validateData.
+Code: function validateData() {
+
+Line 48: Defines the function checkRequiredFields.
+Code: function checkRequiredFields() {
+
+Line 50: Displays a message in the browser console.
+Code: console.log("Checking required fields");
+
+Line 55: Defines the function saveRecord.
+Code: function saveRecord() {
+
+Line 62: Defines the function sendRequest.
+Code: function sendRequest() {
+
+Line 64: Displays a message in the browser console.
+Code: console.log("Sending request");
 
 
 2. INLINE EVENT HANDLERS
@@ -25,12 +43,32 @@ Code: window.location.assign("profile.php");
 Found 1 internal script blocks.
 Found 0 inline event handlers.
 Found 0 external JS references.
-Generated 3 code explanations.
+Generated 9 code explanations.
 
 5. FUNCTION DEFINITIONS
 
-Function: navigateToProfile()
-Defined at line: 29
+Function: prepareData()
+Defined at line: 25
+Parameters: None
+
+Function: normalizeData()
+Defined at line: 34
+Parameters: None
+
+Function: validateData()
+Defined at line: 41
+Parameters: None
+
+Function: checkRequiredFields()
+Defined at line: 48
+Parameters: None
+
+Function: saveRecord()
+Defined at line: 55
+Parameters: None
+
+Function: sendRequest()
+Defined at line: 62
 Parameters: None
 
 
@@ -38,18 +76,25 @@ Parameters: None
 
 Event: click
 Type: DOM
-Element: #btnDashboard
+Element: #btnSave
 Registered at line: 16
-    - Changes the browser URL using location.href.
 
-Event: click
-Type: DOM
-Element: #btnProfile
-Registered at line: 23
+  Calls: prepareData()
+    - Function prepareData() defined at line 25.
+        - Calls normalizeData().
+            - Function normalizeData() defined at line 34.
+                - Displays a message in the browser console.
+        - Calls validateData().
+            - Function validateData() defined at line 41.
+                - Calls checkRequiredFields().
+                    - Function checkRequiredFields() defined at line 48.
+                        - Displays a message in the browser console.
 
-  Calls: navigateToProfile()
-    - Function navigateToProfile() defined at line 29.
-        - Changes the browser URL.
+  Calls: saveRecord()
+    - Function saveRecord() defined at line 55.
+        - Calls sendRequest().
+            - Function sendRequest() defined at line 62.
+                - Displays a message in the browser console.
 
 
 7. BACKEND REQUEST ANALYSIS
@@ -67,12 +112,24 @@ No HTML forms found.
 
 10. BROWSER NAVIGATION ANALYSIS
 
-Line: 18
-Navigation type: location.href
-Destination: dashboard.php
-Code: window.location.href = "dashboard.php";
+No supported browser navigation found.
 
-Line: 31
-Navigation type: location.assign()
-Destination: profile.php
-Code: window.location.assign("profile.php");
+
+11. V7 APPLICATION EXECUTION FLOW
+
+Event: click
+Type: DOM
+Element: #btnSave
+Registered at line: 16
+    -> Event calls prepareData().
+        -> Function prepareData() defined at line 25.
+            -> Calls normalizeData().
+                -> Function normalizeData() defined at line 34.
+            -> Calls validateData().
+                -> Function validateData() defined at line 41.
+                    -> Calls checkRequiredFields().
+                        -> Function checkRequiredFields() defined at line 48.
+    -> Event calls saveRecord().
+        -> Function saveRecord() defined at line 55.
+            -> Calls sendRequest().
+                -> Function sendRequest() defined at line 62.

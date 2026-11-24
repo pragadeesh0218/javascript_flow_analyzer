@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V7 Multiple Function Test</title>
+</head>
+<body>
+
+    <h2>Save Record Test</h2>
+
+    <button id="btnSave">Save</button>
+
+    <script>
+
+        document.getElementById("btnSave")
+            .addEventListener("click", function() {
+
+                prepareData();
+
+                saveRecord();
+
+            });
+
+
+        function prepareData() {
+
+            normalizeData();
+
+            validateData();
+
+        }
+
+
+        function normalizeData() {
+
+            console.log("Normalizing data");
+
+        }
+
+
+        function validateData() {
+
+            checkRequiredFields();
+
+        }
+
+
+        function checkRequiredFields() {
+
+            console.log("Checking required fields");
+
+        }
+
+
+        function saveRecord() {
+
+            sendRequest();
+
+        }
+
+
+        function sendRequest() {
+
+            console.log("Sending request");
+
+        }
+
+    </script>
+
+</body>
+</html>
