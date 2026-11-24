@@ -23,7 +23,7 @@ from explainer import generate_report
 # CONFIGURATION
 # =========================================================
 
-INPUT_FILE = "input/v5_test1_ajax.html"
+INPUT_FILE = "input/v5_test3_database.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 

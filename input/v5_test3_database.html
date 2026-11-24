@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V5 Database Test</title>
+</head>
+<body>
+
+    <button id="btnLoadUsers">Load Users</button>
+
+    <script>
+        document.getElementById("btnLoadUsers")
+            .addEventListener("click", function () {
+                loadUsers();
+            });
+
+        function loadUsers() {
+
+            let userData = {
+                user_id: 101
+            };
+
+            fetch("database_users.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (result) {
+                console.log(result);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -4,23 +4,11 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 14: Registers a click event handler.
-Code: $("#btnContinue").on("click", function () {
+Line 17: Defines the function loadUsers.
+Code: function loadUsers() {
 
-Line 18: Defines the function saveUser.
-Code: function saveUser() {
-
-Line 20: Selects an HTML element using a jQuery selector.
-Code: let username = $("#username").val();
-
-Line 22: Checks an IF condition.
-Code: if (username === "") {
-
-Line 24: Returns a value from the current function.
-Code: return false;
-
-Line 27: Starts an AJAX request.
-Code: $.ajax({
+Line 23: Starts an HTTP request.
+Code: fetch("database_users.php", {
 
 
 2. INLINE EVENT HANDLERS
@@ -28,75 +16,75 @@ Code: $.ajax({
 
 3. EXTERNAL JAVASCRIPT FILES
 
-Line 5: External JavaScript file: https://code.jquery.com/jquery-3.7.1.min.js
 
 4. OVERALL SUMMARY
 
 Found 1 internal script blocks.
 Found 0 inline event handlers.
-Found 1 external JS references.
-Generated 6 code explanations.
+Found 0 external JS references.
+Generated 2 code explanations.
 
 5. FUNCTION DEFINITIONS
 
-Function: saveUser()
-Defined at line: 18
+Function: loadUsers()
+Defined at line: 17
 Parameters: None
 
 
 6. EVENT-TO-FUNCTION FLOW
 
 Event: click
-Type: jQuery
-Element: $("#btnContinue")
-Registered at line: 14
+Type: DOM
+Element: #btnLoadUsers
+Registered at line: 13
 
-  Calls: saveUser()
-    - Function saveUser() defined at line 18.
-        - Selects an HTML element using jQuery.
-        - Checks IF condition: username === "".
-            - If this IF condition is TRUE, executes this branch.
-            - Returns false from the function and exits this function.
-        - Starts an AJAX request to a backend endpoint.
-        - Registers AJAX success callback. Its code runs asynchronously when the corresponding response or promise event occurs.
-        - Registers AJAX error callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+  Calls: loadUsers()
+    - Function loadUsers() defined at line 17.
+        - Starts an HTTP request using Fetch.
+        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+        - Registers Promise catch() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
 
 
 7. BACKEND REQUEST ANALYSIS
 
-Request found at line: 27
-Request type: AJAX
-Backend endpoint: save_data.php
+Request found at line: 23
+Request type: FETCH
+Backend endpoint: database_users.php
 HTTP method: POST
-Request data: {
-username: username
-}
-Response handling: AJAX success callback, AJAX error callback
+Request data: JSON.stringify(userData)
+Response handling: Promise then() handler, Promise catch() handler
 Backend identification: PHP endpoint detected.
 
 
 8. PHP BACKEND FILE ANALYSIS
 
-Endpoint: save_data.php
-PHP file path: E:\vs\javascript_flow_analyzer\input\save_data.php
+Endpoint: database_users.php
+PHP file path: E:\vs\javascript_flow_analyzer\input\database_users.php
 
 PHP INPUT ANALYSIS
-Receives username through $_POST.
+Receives Raw request body through php://input.
+Receives user_id through Decoded JSON body.
 
 JSON PROCESSING
+Uses json_decode() to convert JSON into PHP data.
 Uses json_encode() to convert PHP data into JSON.
 
 VALIDATION AND CONDITIONS
-IF condition: empty($username)
+IF condition: empty($user_id)
 Checks whether a value is empty
 
 DATABASE OPERATIONS
-No supported database operations detected.
+Creates a database connection using PDO.
+Prepares a database SQL statement.
+Executes a prepared database statement.
+SQL SELECT operation detected.
 
 PHP RESPONSE ANALYSIS
 Uses echo to send output to the client.
 Sends or prepares a JSON response.
 Sets an HTTP response header.
+Sets an HTTP response status code.
 
 FRONTEND-TO-BACKEND DATA MATCHING
-JavaScript field 'username' matches PHP input 'username'.
+JavaScript field 'user_id' matches PHP input 'user_id'.
