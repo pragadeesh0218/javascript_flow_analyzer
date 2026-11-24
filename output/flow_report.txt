@@ -4,11 +4,14 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 17: Defines the function loadUsers.
-Code: function loadUsers() {
+Line 18: Changes the browser URL.
+Code: window.location.href = "dashboard.php";
 
-Line 23: Starts an HTTP request.
-Code: fetch("database_users.php", {
+Line 29: Defines the function navigateToProfile.
+Code: function navigateToProfile() {
+
+Line 31: Changes the browser URL.
+Code: window.location.assign("profile.php");
 
 
 2. INLINE EVENT HANDLERS
@@ -22,12 +25,12 @@ Code: fetch("database_users.php", {
 Found 1 internal script blocks.
 Found 0 inline event handlers.
 Found 0 external JS references.
-Generated 2 code explanations.
+Generated 3 code explanations.
 
 5. FUNCTION DEFINITIONS
 
-Function: loadUsers()
-Defined at line: 17
+Function: navigateToProfile()
+Defined at line: 29
 Parameters: None
 
 
@@ -35,56 +38,41 @@ Parameters: None
 
 Event: click
 Type: DOM
-Element: #btnLoadUsers
-Registered at line: 13
+Element: #btnDashboard
+Registered at line: 16
+    - Changes the browser URL using location.href.
 
-  Calls: loadUsers()
-    - Function loadUsers() defined at line 17.
-        - Starts an HTTP request using Fetch.
-        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
-        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
-        - Registers Promise catch() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+Event: click
+Type: DOM
+Element: #btnProfile
+Registered at line: 23
+
+  Calls: navigateToProfile()
+    - Function navigateToProfile() defined at line 29.
+        - Changes the browser URL.
 
 
 7. BACKEND REQUEST ANALYSIS
 
-Request found at line: 23
-Request type: FETCH
-Backend endpoint: database_users.php
-HTTP method: POST
-Request data: JSON.stringify(userData)
-Response handling: Promise then() handler, Promise catch() handler
-Backend identification: PHP endpoint detected.
+No supported AJAX or Fetch requests identified.
 
 
 8. PHP BACKEND FILE ANALYSIS
 
-Endpoint: database_users.php
-PHP file path: E:\vs\javascript_flow_analyzer\input\database_users.php
 
-PHP INPUT ANALYSIS
-Receives Raw request body through php://input.
-Receives user_id through Decoded JSON body.
+9. HTML FORM ANALYSIS
 
-JSON PROCESSING
-Uses json_decode() to convert JSON into PHP data.
-Uses json_encode() to convert PHP data into JSON.
+No HTML forms found.
 
-VALIDATION AND CONDITIONS
-IF condition: empty($user_id)
-Checks whether a value is empty
 
-DATABASE OPERATIONS
-Creates a database connection using PDO.
-Prepares a database SQL statement.
-Executes a prepared database statement.
-SQL SELECT operation detected.
+10. BROWSER NAVIGATION ANALYSIS
 
-PHP RESPONSE ANALYSIS
-Uses echo to send output to the client.
-Sends or prepares a JSON response.
-Sets an HTTP response header.
-Sets an HTTP response status code.
+Line: 18
+Navigation type: location.href
+Destination: dashboard.php
+Code: window.location.href = "dashboard.php";
 
-FRONTEND-TO-BACKEND DATA MATCHING
-JavaScript field 'user_id' matches PHP input 'user_id'.
+Line: 31
+Navigation type: location.assign()
+Destination: profile.php
+Code: window.location.assign("profile.php");

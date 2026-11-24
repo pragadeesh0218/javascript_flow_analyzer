@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V6 Form Submission Test</title>
+</head>
+<body>
+
+    <form id="loginForm" action="login.php" method="POST">
+
+        <input type="text" id="username" name="username">
+
+        <input type="password" id="password" name="password">
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <script>
+
+        document.getElementById("loginForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                let username = document.getElementById("username").value;
+
+                if (username === "") {
+                    alert("Enter username");
+                    return;
+                }
+
+                document.getElementById("loginForm").submit();
+
+            });
+
+    </script>
+
+</body>
+</html>

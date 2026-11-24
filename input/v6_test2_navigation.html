@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V6 Navigation Test</title>
+</head>
+<body>
+
+    <button id="btnDashboard">Dashboard</button>
+
+    <button id="btnProfile">Profile</button>
+
+    <script>
+
+        document.getElementById("btnDashboard")
+            .addEventListener("click", function() {
+
+                window.location.href = "dashboard.php";
+
+            });
+
+        document.getElementById("btnProfile")
+            .addEventListener("click", function() {
+
+                navigateToProfile();
+
+            });
+
+        function navigateToProfile() {
+
+            window.location.assign("profile.php");
+
+        }
+
+    </script>
+
+</body>
+</html>

@@ -1,6 +1,10 @@
 
 from pathlib import Path
 from urllib.parse import urlsplit
+from v6_analyzer import (
+    analyze_event_actions,
+    analyze_navigation
+)
 
 from backend_analyzer import detect_backend_requests
 from php_analyzer import analyze_php_file
@@ -23,7 +27,7 @@ from explainer import generate_report
 # CONFIGURATION
 # =========================================================
 
-INPUT_FILE = "input/v5_test3_database.html"
+INPUT_FILE = "input/v6_test2_navigation.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 
@@ -184,12 +188,21 @@ def main():
             event["body"]
         )
 
-        if not calls:
+        event_actions = analyze_event_actions(
+            event["body"]
+        )
+
+        if not calls and not event_actions:
+            report += "No direct function calls or supported actions identified.\n"
+
+        # Report direct actions inside the event handler
+        for action in event_actions:
 
             report += (
-                "No direct function calls identified.\n"
+                f"    - {action}\n"
             )
 
+        # Trace named function calls
         for call in calls:
 
             name = call["name"]
@@ -314,7 +327,97 @@ def main():
         report += "\n"
 
     # -----------------------------------------------------
-    # 9. SAVE REPORT
+    # 9. HTML FORM ANALYSIS
+    # -----------------------------------------------------
+
+    report += "\n\n9. HTML FORM ANALYSIS\n"
+
+    if not parsed_data["forms"]:
+
+        report += "\nNo HTML forms found.\n"
+
+    for form in parsed_data["forms"]:
+
+        report += (
+            f"\nForm ID: {form['id']}\n"
+            f"Line: {form['line']}\n"
+            f"Action: {form['action'] or 'Current page'}\n"
+            f"Method: {form['method']}\n"
+        )
+
+        if form["fields"]:
+
+            report += "Form fields:\n"
+
+            for field in form["fields"]:
+
+                report += (
+                    f"  - {field['name']} "
+                    f"(type: {field['type']})\n"
+                )
+
+        else:
+
+            report += "No named form fields detected.\n"
+
+        if form["action"].lower().split("?")[0].endswith(".php"):
+
+            report += (
+                "Backend identification: "
+                "PHP form action detected.\n"
+            )
+
+            form_php_path = resolve_php_endpoint(
+                form["action"],
+                input_path
+            )
+
+            if form_php_path:
+
+                if form_php_path.exists():
+
+                    report += (
+                        f"PHP action file found: {form_php_path}\n"
+                    )
+
+                else:
+
+                    report += (
+                        f"PHP action file not found: {form_php_path}\n"
+                    )
+
+    # -----------------------------------------------------
+    # 10. BROWSER NAVIGATION ANALYSIS
+    # -----------------------------------------------------
+
+    report += "\n\n10. BROWSER NAVIGATION ANALYSIS\n"
+
+    navigation_results = []
+
+    for script in parsed_data["scripts"]:
+
+        navigation_results.extend(
+            analyze_navigation(
+                script["code"],
+                script["line"]
+            )
+        )
+
+    if not navigation_results:
+
+        report += "\nNo supported browser navigation found.\n"
+
+    for navigation in navigation_results:
+
+        report += (
+            f"\nLine: {navigation['line']}\n"
+            f"Navigation type: {navigation['type']}\n"
+            f"Destination: {navigation['target']}\n"
+            f"Code: {navigation['code']}\n"
+        )
+
+    # -----------------------------------------------------
+    # 11. SAVE REPORT
     # -----------------------------------------------------
 
     output_path.parent.mkdir(
