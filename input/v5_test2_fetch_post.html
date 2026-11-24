@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V5 Fetch Test</title>
+</head>
+<body>
+
+
+<button id="btnLogin">Login</button>
+
+<script>
+document.getElementById("btnLogin").addEventListener("click", function () {
+loginUser();
+});
+
+function loginUser() {
+
+let userData = {
+username: "admin",
+password: "12345"
+};
+
+fetch("login.php", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(userData)
+})
+.then(function (response) {
+return response.json();
+})
+.then(function (result) {
+console.log(result);
+})
+.catch(function (error) {
+console.log(error);
+});
+}
+
+function loadDashboard() {
+
+$.post(
+"dashboard_data.php",
+{ user_id: 101 },
+function (response) {
+console.log(response);
+}
+);
+}
+</script>
+
+</body>
+</html>

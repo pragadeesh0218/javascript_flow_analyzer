@@ -1,5 +1,5 @@
 from pathlib import Path
-
+from backend_analyzer import detect_backend_requests
 from parser import extract_javascript
 from analyzer import (
     analyze_javascript,
@@ -12,7 +12,7 @@ from analyzer import (
 from explainer import generate_report
 
 
-INPUT_FILE = "input/v4_test3_return_paths.html"
+INPUT_FILE =  "input/v5_test2_fetch_post.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 
@@ -32,6 +32,7 @@ def main():
     all_functions = []
     all_events = []
     analysis_results = []
+    all_backend_requests = []
 
     # Analyze internal script blocks
     for script in parsed_data["scripts"]:
@@ -50,6 +51,10 @@ def main():
         analysis_results.extend(
             analyze_javascript(code, start_line)
         )
+
+        all_backend_requests.extend(
+        detect_backend_requests(code, start_line)
+)
 
     # Analyze inline HTML event handlers
     for event in parsed_data["inline_events"]:
@@ -135,6 +140,28 @@ def main():
                     "    - Function definition not found "
                     "in this input file.\n"
                 )
+
+    report += "\n\n7. BACKEND REQUEST ANALYSIS\n"
+
+    if not all_backend_requests:
+        report += "\nNo supported AJAX or Fetch requests identified.\n"
+
+    for request in all_backend_requests:
+
+        report += (
+            f"\nRequest found at line: {request['line']}\n"
+            f"Request type: {request['type']}\n"
+            f"Backend endpoint: {request['endpoint']}\n"
+            f"HTTP method: {request['method']}\n"
+            f"Request data: {request['data']}\n"
+            f"Response handling: "
+            f"{', '.join(request['response_handling'])}\n"
+        )
+
+        if ".php" in request["endpoint"].lower():
+            report += (
+                "Backend identification: PHP endpoint detected.\n"
+            )
 
     # Save report
     output_path.parent.mkdir(

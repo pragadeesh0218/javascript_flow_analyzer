@@ -4,56 +4,14 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 8: Registers a click event handler.
-Code: $("#btnLogin").on("click", function () {
+Line 16: Defines the function loginUser.
+Code: function loginUser() {
 
-Line 12: Defines the function login.
-Code: function login() {
+Line 23: Starts an HTTP request.
+Code: fetch("login.php", {
 
-Line 14: Selects an HTML element using a jQuery selector.
-Code: let username = $("#username").val();
-
-Line 15: Selects an HTML element using a jQuery selector.
-Code: let password = $("#password").val();
-
-Line 17: Checks an IF condition.
-Code: if (username === "") {
-
-Line 19: Returns a value from the current function.
-Code: return false;
-
-Line 22: Checks an IF condition.
-Code: if (password === "") {
-
-Line 24: Returns a value from the current function.
-Code: return false;
-
-Line 27: Checks an IF condition.
-Code: if (checkCredentials()) {
-
-Line 29: Returns a value from the current function.
-Code: return true;
-
-Line 32: Executes an alternative ELSE branch.
-Code: else {
-
-Line 34: Returns a value from the current function.
-Code: return false;
-
-Line 38: Defines the function checkCredentials.
-Code: function checkCredentials() {
-
-Line 39: Displays a message in the browser console.
-Code: console.log("Checking credentials");
-
-Line 40: Returns a value from the current function.
-Code: return true;
-
-Line 43: Defines the function openDashboard.
-Code: function openDashboard() {
-
-Line 44: Changes the browser URL.
-Code: window.location.href = "dashboard.php";
+Line 41: Defines the function loadDashboard.
+Code: function loadDashboard() {
 
 
 2. INLINE EVENT HANDLERS
@@ -67,49 +25,48 @@ Code: window.location.href = "dashboard.php";
 Found 1 internal script blocks.
 Found 0 inline event handlers.
 Found 0 external JS references.
-Generated 17 code explanations.
+Generated 3 code explanations.
 
 5. FUNCTION DEFINITIONS
 
-Function: login()
-Defined at line: 12
+Function: loginUser()
+Defined at line: 16
 Parameters: None
 
-Function: checkCredentials()
-Defined at line: 38
-Parameters: None
-
-Function: openDashboard()
-Defined at line: 43
+Function: loadDashboard()
+Defined at line: 41
 Parameters: None
 
 
 6. EVENT-TO-FUNCTION FLOW
 
 Event: click
-Type: jQuery
-Element: $("#btnLogin")
-Registered at line: 8
+Type: DOM
+Element: #btnLogin
+Registered at line: 12
 
-  Calls: login()
-    - Function login() defined at line 12.
-        - Selects an HTML element using jQuery.
-        - Selects an HTML element using jQuery.
-        - Checks IF condition: username === "".
-            - If this IF condition is TRUE, executes this branch.
-            - Returns false from the function and exits this function.
-        - Checks IF condition: password === "".
-            - If this IF condition is TRUE, executes this branch.
-            - Returns false from the function and exits this function.
-        - Checks IF condition: checkCredentials().
-            - Calls checkCredentials() to evaluate the condition.
-                - Function checkCredentials() defined at line 38.
-                    - Displays a message in the browser console.
-                    - Returns true from the function and exits this function.
-            - If this IF condition is TRUE, executes this branch.
-            - Calls openDashboard().
-                - Function openDashboard() defined at line 43.
-                    - Changes the browser URL.
-            - Returns true from the function and exits this function.
-        - If the preceding IF condition is FALSE, executes this ELSE branch.
-            - Returns false from the function and exits this function.
+  Calls: loginUser()
+    - Function loginUser() defined at line 16.
+        - Starts an HTTP request using Fetch.
+        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+        - Registers Promise then() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+        - Registers Promise catch() callback. Its code runs asynchronously when the corresponding response or promise event occurs.
+
+
+7. BACKEND REQUEST ANALYSIS
+
+Request found at line: 23
+Request type: FETCH
+Backend endpoint: login.php
+HTTP method: POST
+Request data: JSON.stringify(userData)
+Response handling: Promise then() handler, Promise catch() handler
+Backend identification: PHP endpoint detected.
+
+Request found at line: 43
+Request type: JQUERY_POST
+Backend endpoint: dashboard_data.php
+HTTP method: POST
+Request data: { user_id: 101 }
+Response handling: jQuery success callback
+Backend identification: PHP endpoint detected.

@@ -2,7 +2,10 @@
 import re
 
 
-# JavaScript keywords that should not be treated as function calls
+# =========================================================
+# JAVASCRIPT KEYWORDS AND BUILT-IN FUNCTIONS
+# =========================================================
+
 IGNORED_CALLS = {
     # JavaScript keywords
     "if", "else", "for", "while", "switch",
@@ -10,11 +13,21 @@ IGNORED_CALLS = {
     "new", "throw", "try", "do", "await",
     "delete", "void",
 
-    # Browser and JavaScript built-ins
+    # Browser built-ins
     "alert", "confirm", "prompt",
     "parseInt", "parseFloat",
     "setTimeout", "setInterval",
     "clearTimeout", "clearInterval",
+    "fetch",
+
+    # AJAX and jQuery methods
+    "ajax", "get", "post",
+
+    # Promise methods
+    "then", "catch",
+
+    # JSON methods
+    "JSON", "stringify", "parse",
 
     # Console methods
     "log", "error", "warn", "info",
@@ -24,11 +37,11 @@ IGNORED_CALLS = {
 }
 
 
+# =========================================================
+# 1. FIND MATCHING BRACE
+# =========================================================
+
 def find_matching_brace(code, open_pos):
-    """
-    Find the closing brace corresponding to an opening brace.
-    Handles basic strings and comments.
-    """
 
     depth = 0
     quote = None
@@ -44,37 +57,47 @@ def find_matching_brace(code, open_pos):
         next_char = code[i + 1] if i + 1 < len(code) else ""
 
         if line_comment:
+
             if char == "\n":
                 line_comment = False
 
         elif block_comment:
+
             if char == "*" and next_char == "/":
                 block_comment = False
                 i += 1
 
         elif quote:
+
             if escaped:
                 escaped = False
+
             elif char == "\\":
                 escaped = True
+
             elif char == quote:
                 quote = None
 
         elif char == "/" and next_char == "/":
+
             line_comment = True
             i += 1
 
         elif char == "/" and next_char == "*":
+
             block_comment = True
             i += 1
 
         elif char in ("'", '"', "`"):
+
             quote = char
 
         elif char == "{":
+
             depth += 1
 
         elif char == "}":
+
             depth -= 1
 
             if depth == 0:
@@ -84,6 +107,10 @@ def find_matching_brace(code, open_pos):
 
     return None
 
+
+# =========================================================
+# 2. EXTRACT FUNCTION DEFINITIONS
+# =========================================================
 
 def extract_functions(code, start_line=1):
 
@@ -100,14 +127,21 @@ def extract_functions(code, start_line=1):
         parameters = match.group(2)
 
         open_pos = match.end() - 1
-        close_pos = find_matching_brace(code, open_pos)
+
+        close_pos = find_matching_brace(
+            code,
+            open_pos
+        )
 
         if close_pos is None:
             continue
 
         body = code[open_pos + 1:close_pos]
 
-        line = start_line + code[:match.start()].count("\n")
+        line = (
+            start_line +
+            code[:match.start()].count("\n")
+        )
 
         functions.append({
             "name": name,
@@ -119,6 +153,9 @@ def extract_functions(code, start_line=1):
     return functions
 
 
+# =========================================================
+# 3. EXTRACT FUNCTION CALLS
+# =========================================================
 
 def extract_function_calls(code):
 
@@ -135,13 +172,13 @@ def extract_function_calls(code):
         if name in IGNORED_CALLS:
             continue
 
-        # Ignore function declarations
         prefix = code[:match.start()].rstrip()
 
+        # Ignore function declarations
         if re.search(r'\bfunction\s*$', prefix):
             continue
 
-        # Ignore object methods such as console.log()
+        # Ignore object methods
         if match.start() > 0 and code[match.start() - 1] == ".":
             continue
 
@@ -162,6 +199,10 @@ def extract_function_calls(code):
 
     return unique_calls
 
+
+# =========================================================
+# 4. EXTRACT EVENT HANDLERS
+# =========================================================
 
 def extract_event_handlers(code, start_line=1):
 
@@ -185,9 +226,12 @@ def extract_event_handlers(code, start_line=1):
         for match in re.finditer(pattern, code):
 
             event_name = match.group(1)
-
             open_pos = match.end() - 1
-            close_pos = find_matching_brace(code, open_pos)
+
+            close_pos = find_matching_brace(
+                code,
+                open_pos
+            )
 
             if close_pos is None:
                 continue
@@ -199,12 +243,11 @@ def extract_event_handlers(code, start_line=1):
                 code[:match.start()].count("\n")
             )
 
-            # Find the selector for jQuery events
             selector = "Unknown element"
+            before = code[:match.start()]
 
+            # jQuery selector
             if event_type == "jQuery":
-
-                before = code[:match.start()]
 
                 selector_match = re.search(
                     r'(\$\s*\(\s*["\'][^"\']+["\']\s*\))\s*$',
@@ -213,6 +256,30 @@ def extract_event_handlers(code, start_line=1):
 
                 if selector_match:
                     selector = selector_match.group(1)
+
+            # DOM getElementById selector
+            else:
+
+                id_match = re.search(
+                    r'document\s*\.\s*getElementById\s*'
+                    r'\(\s*["\']([^"\']+)["\']\s*\)\s*$',
+                    before
+                )
+
+                if id_match:
+                    selector = "#" + id_match.group(1)
+
+                else:
+
+                    # DOM querySelector selector
+                    query_match = re.search(
+                        r'document\s*\.\s*querySelector\s*'
+                        r'\(\s*["\']([^"\']+)["\']\s*\)\s*$',
+                        before
+                    )
+
+                    if query_match:
+                        selector = query_match.group(1)
 
             events.append({
                 "event": event_name,
@@ -225,13 +292,19 @@ def extract_event_handlers(code, start_line=1):
     return events
 
 
+# =========================================================
+# 5. BUILD FUNCTION CALL GRAPH
+# =========================================================
+
 def build_call_graph(functions):
 
     graph = {}
 
     for function in functions:
 
-        calls = extract_function_calls(function["body"])
+        calls = extract_function_calls(
+            function["body"]
+        )
 
         graph[function["name"]] = calls
 
@@ -239,21 +312,139 @@ def build_call_graph(functions):
 
 
 
-def trace_function(name, function_map, graph, visited=None, depth=0):
+# =========================================================
+# 6. FIND ASYNCHRONOUS CALLBACK BLOCKS
+# =========================================================
+
+def find_async_callback_ranges(body):
+
+    callback_patterns = [
+
+        # AJAX success callback
+        (
+            r'\bsuccess\s*:\s*function\s*'
+            r'\([^)]*\)\s*\{',
+            "AJAX success callback"
+        ),
+
+        # AJAX error callback
+        (
+            r'\berror\s*:\s*function\s*'
+            r'\([^)]*\)\s*\{',
+            "AJAX error callback"
+        ),
+
+        # Promise then callback
+        (
+            r'\.then\s*\(\s*'
+            r'(?:function\s*\([^)]*\)|'
+            r'(?:\([^)]*\)|[A-Za-z_$][\w$]*)\s*=>)'
+            r'\s*\{',
+            "Promise then() callback"
+        ),
+
+        # Promise catch callback
+        (
+            r'\.catch\s*\(\s*'
+            r'(?:function\s*\([^)]*\)|'
+            r'(?:\([^)]*\)|[A-Za-z_$][\w$]*)\s*=>)'
+            r'\s*\{',
+            "Promise catch() callback"
+        )
+    ]
+
+    ranges = {}
+
+    # Detect standard AJAX and Promise callbacks
+    for pattern, label in callback_patterns:
+
+        for match in re.finditer(pattern, body):
+
+            open_pos = match.end() - 1
+
+            close_pos = find_matching_brace(
+                body,
+                open_pos
+            )
+
+            if close_pos is None:
+                continue
+
+            start_line = body[:match.start()].count("\n")
+            end_line = body[:close_pos].count("\n")
+
+            ranges[start_line] = {
+                "end_line": end_line,
+                "label": label
+            }
+
+    # -----------------------------------------------------
+    # Detect jQuery $.get() and $.post() success callbacks
+    # -----------------------------------------------------
+
+    jquery_pattern = re.compile(
+        r'\$\s*\.\s*(?:get|post)\s*\('
+        r'[^;]*?'
+        r'(\bfunction\s*\([^)]*\)\s*\{)',
+        re.DOTALL
+    )
+
+    for match in re.finditer(jquery_pattern, body):
+
+        callback_start = match.start(1)
+        open_pos = match.end(1) - 1
+
+        close_pos = find_matching_brace(
+            body,
+            open_pos
+        )
+
+        if close_pos is None:
+            continue
+
+        start_line = body[:callback_start].count("\n")
+        end_line = body[:close_pos].count("\n")
+
+        ranges[start_line] = {
+            "end_line": end_line,
+            "label": "jQuery success callback"
+        }
+
+    return ranges
+
+
+
+# =========================================================
+# 7. TRACE FUNCTION EXECUTION
+# =========================================================
+
+def trace_function(
+    name,
+    function_map,
+    graph,
+    visited=None,
+    depth=0
+):
 
     if visited is None:
         visited = set()
 
     if name in visited:
+
         return [{
             "depth": depth,
-            "message": f"{name}() already visited. Possible recursion."
+            "message": (
+                f"{name}() already visited. Possible recursion."
+            )
         }]
 
     if name not in function_map:
+
         return [{
             "depth": depth,
-            "message": f"{name}() definition not found in this file."
+            "message": (
+                f"{name}() definition not found in this file."
+            )
         }]
 
     visited = visited | {name}
@@ -270,79 +461,104 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
     body = function["body"]
     lines = body.splitlines()
 
-    # Tracks the currently open IF / ELSE branches.
     branch_stack = []
 
-    for line in lines:
+    # Find asynchronous callback blocks
+    callback_ranges = find_async_callback_ranges(body)
 
+    index = 0
+
+    while index < len(lines):
+
+        line = lines[index]
         statement = line.strip()
 
         if not statement or statement.startswith("//"):
+            index += 1
             continue
 
-        # Remove leading closing braces and close previous branches.
-        leading_closes = len(statement) - len(statement.lstrip("}"))
+        # Asynchronous callback detection
+        if index in callback_ranges:
+
+            callback = callback_ranges[index]
+
+            current_depth = depth + 1 + len(branch_stack)
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    f"Registers {callback['label']}. "
+                    "Its code runs asynchronously when "
+                    "the corresponding response or promise event occurs."
+                )
+            })
+
+            # Skip callback body because it does not execute immediately
+            index = callback["end_line"] + 1
+            continue
+
+        # Close previous branches
+        leading_closes = (
+            len(statement) -
+            len(statement.lstrip("}"))
+        )
 
         for _ in range(leading_closes):
+
             if branch_stack:
                 branch_stack.pop()
 
-        # Remove closing braces from the beginning of the statement.
         statement = statement.lstrip("}").strip()
 
         if not statement:
+            index += 1
             continue
 
         current_depth = depth + 1 + len(branch_stack)
 
-        # ELSE IF condition
+        # Conditions
         else_if_match = re.match(
             r'else\s+if\s*\((.*)\)\s*\{?',
             statement
         )
 
-        # IF condition
         if_match = re.match(
             r'if\s*\((.*)\)\s*\{?',
             statement
         )
 
-        # ELSE branch
-        is_else = re.match(r'else\s*\{?', statement)
+        is_else = re.match(
+            r'else\s*\{?',
+            statement
+        )
 
-        if else_if_match:
+        if else_if_match or if_match:
 
-            condition = else_if_match.group(1).strip()
+            condition = (
+                else_if_match.group(1).strip()
+                if else_if_match
+                else if_match.group(1).strip()
+            )
 
-            results.append({
-                "depth": current_depth,
-                "message": (
-                    f"Checks ELSE IF condition: {condition}. "
-                    "This is evaluated when the previous IF branch "
-                    "was not taken."
-                )
-            })
+            if else_if_match:
 
-            results.append({
-                "depth": current_depth + 1,
-                "message": (
-                    "If this ELSE IF condition is TRUE, "
-                    "executes this branch."
-                )
-            })
+                results.append({
+                    "depth": current_depth,
+                    "message": (
+                        f"Checks ELSE IF condition: {condition}. "
+                        "This is evaluated when the previous "
+                        "IF branch was not taken."
+                    )
+                })
 
-            branch_stack.append("ELSE IF")
+            else:
 
-        elif if_match:
+                results.append({
+                    "depth": current_depth,
+                    "message": f"Checks IF condition: {condition}."
+                })
 
-            condition = if_match.group(1).strip()
-
-            results.append({
-                "depth": current_depth,
-                "message": f"Checks IF condition: {condition}."
-            })
-
-            # Detect function calls inside the condition
+            # Trace function calls inside conditions
             condition_calls = extract_function_calls(condition)
 
             for call in condition_calls:
@@ -352,7 +568,8 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                 results.append({
                     "depth": current_depth + 1,
                     "message": (
-                        f"Calls {called_name}() to evaluate the condition."
+                        f"Calls {called_name}() "
+                        "to evaluate the condition."
                     )
                 })
 
@@ -378,15 +595,21 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                         )
                     })
 
+            branch_type = (
+                "ELSE IF"
+                if else_if_match
+                else "IF"
+            )
+
             results.append({
                 "depth": current_depth + 1,
                 "message": (
-                    "If this IF condition is TRUE, "
+                    f"If this {branch_type} condition is TRUE, "
                     "executes this branch."
                 )
             })
 
-            branch_stack.append("IF")
+            branch_stack.append(branch_type)
 
         elif is_else:
 
@@ -400,7 +623,7 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
 
             branch_stack.append("ELSE")
 
-        # Return statements
+        # Return statement
         return_match = re.match(
             r'return(?:\s+(.*?))?;?$',
             statement
@@ -411,6 +634,7 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
             return_value = return_match.group(1)
 
             if return_value:
+
                 results.append({
                     "depth": current_depth,
                     "message": (
@@ -420,6 +644,7 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                 })
 
             else:
+
                 results.append({
                     "depth": current_depth,
                     "message": (
@@ -427,20 +652,44 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                     )
                 })
 
+        # AJAX request
+        if re.search(r'\$\s*\.\s*ajax\s*\(', statement):
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    "Starts an AJAX request to a backend endpoint."
+                )
+            })
+
+        # Fetch request
+        elif re.search(r'\bfetch\s*\(', statement):
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    "Starts an HTTP request using Fetch."
+                )
+            })
+
+        # jQuery selector
+        elif re.search(r'\$\s*\(', statement):
+
+            results.append({
+                "depth": current_depth,
+                "message": (
+                    "Selects an HTML element using jQuery."
+                )
+            })
+
         # Console output
         if re.search(r'console\.log\s*\(', statement):
 
             results.append({
                 "depth": current_depth,
-                "message": "Displays a message in the browser console."
-            })
-
-        # jQuery selector
-        if re.search(r'\$\s*\(', statement):
-
-            results.append({
-                "depth": current_depth,
-                "message": "Selects an HTML element using jQuery."
+                "message": (
+                    "Displays a message in the browser console."
+                )
             })
 
         # Form submission
@@ -448,7 +697,9 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
 
             results.append({
                 "depth": current_depth,
-                "message": "Submits the selected HTML form."
+                "message": (
+                    "Submits the selected HTML form."
+                )
             })
 
         # Show and hide
@@ -467,7 +718,10 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
             })
 
         # Browser navigation
-        if re.search(r'window\.location|location\.href', statement):
+        if re.search(
+            r'window\.location|location\.href',
+            statement
+        ):
 
             results.append({
                 "depth": current_depth,
@@ -475,13 +729,11 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
             })
 
         # Function calls
-        # Avoid tracing condition calls a second time.
         if if_match or else_if_match:
             calls = []
         else:
             calls = extract_function_calls(statement)
 
-            
         for call in calls:
 
             called_name = call["name"]
@@ -513,8 +765,15 @@ def trace_function(name, function_map, graph, visited=None, depth=0):
                     )
                 })
 
+        index += 1
+
     return results
 
+
+
+# =========================================================
+# 8. EXPLAIN JAVASCRIPT STATEMENTS
+# =========================================================
 
 def analyze_javascript(code, start_line=1):
 
@@ -522,7 +781,25 @@ def analyze_javascript(code, start_line=1):
 
     lines = code.splitlines()
 
+    # Identify asynchronous callback blocks
+    callback_ranges = find_async_callback_ranges(code)
+
+    # Collect callback body lines that should not be
+    # reported as immediate execution.
+    skipped_lines = set()
+
+    for start, callback in callback_ranges.items():
+
+        end = callback["end_line"]
+
+        for line_number in range(start + 1, end + 1):
+            skipped_lines.add(line_number)
+
     for index, line in enumerate(lines):
+
+        # Skip lines inside asynchronous callbacks
+        if index in skipped_lines:
+            continue
 
         current_line = start_line + index
         statement = line.strip()
@@ -539,6 +816,7 @@ def analyze_javascript(code, start_line=1):
         )
 
         if event_match:
+
             explanation = (
                 f"Registers a {event_match.group(1)} event handler."
             )
@@ -546,24 +824,39 @@ def analyze_javascript(code, start_line=1):
         # Function declaration
         elif re.match(r'^function\s+\w+', statement):
 
-            match = re.search(r'function\s+(\w+)', statement)
+            match = re.search(
+                r'function\s+(\w+)',
+                statement
+            )
 
-            explanation = f"Defines the function {match.group(1)}."
+            explanation = (
+                f"Defines the function {match.group(1)}."
+            )
 
-        # ELSE IF must be checked before ELSE
+        # ELSE IF
         elif re.match(r'^else\s+if\s*\(', statement):
 
             explanation = "Checks an ELSE IF condition."
 
-        # IF condition
+        # IF
         elif re.match(r'^if\s*\(', statement):
 
             explanation = "Checks an IF condition."
 
-        # ELSE branch
+        # ELSE
         elif re.match(r'^else\b', statement):
 
             explanation = "Executes an alternative ELSE branch."
+
+        # AJAX
+        elif re.search(r'\$\s*\.\s*ajax\s*\(', statement):
+
+            explanation = "Starts an AJAX request."
+
+        # Fetch
+        elif re.search(r'\bfetch\s*\(', statement):
+
+            explanation = "Starts an HTTP request."
 
         # jQuery selector
         elif re.search(r'\$\s*\(', statement):
@@ -579,17 +872,17 @@ def analyze_javascript(code, start_line=1):
                 "Displays a message in the browser console."
             )
 
-        # Hide element
+        # Hide
         elif re.search(r'\.hide\s*\(', statement):
 
             explanation = "Hides an HTML element."
 
-        # Show element
+        # Show
         elif re.search(r'\.show\s*\(', statement):
 
             explanation = "Displays an HTML element."
 
-        # Get or set element value
+        # Value
         elif re.search(r'\.val\s*\(', statement):
 
             explanation = "Gets or changes an element value."
@@ -599,32 +892,29 @@ def analyze_javascript(code, start_line=1):
 
             explanation = "Submits a form."
 
-        # AJAX request
-        elif re.search(r'\$\.ajax\s*\(', statement):
-
-            explanation = "Starts an AJAX request."
-
-        # Fetch request
-        elif re.search(r'\bfetch\s*\(', statement):
-
-            explanation = "Starts an HTTP request."
-
         # Browser navigation
-        elif re.search(r'window\.location|location\.href', statement):
+        elif re.search(
+            r'window\.location|location\.href',
+            statement
+        ):
 
             explanation = "Changes the browser URL."
 
-        # Return statement
+        # Return
         elif re.match(r'^return\b', statement):
 
-            explanation = "Returns a value from the current function."
+            explanation = (
+                "Returns a value from the current function."
+            )
 
         if explanation:
 
             results.append({
+
                 "line": current_line,
                 "code": statement,
                 "explanation": explanation
+
             })
 
     return results

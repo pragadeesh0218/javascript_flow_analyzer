@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V5 AJAX Test</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+
+<input type="text" id="username">
+<button id="btnContinue">Continue</button>
+
+<script>
+$("#btnContinue").on("click", function () {
+saveUser();
+});
+
+function saveUser() {
+
+let username = $("#username").val();
+
+if (username === "") {
+alert("Enter username");
+return false;
+}
+
+$.ajax({
+url: "save_data.php",
+type: "POST",
+data: {
+username: username
+},
+success: function (response) {
+console.log("Server response:", response);
+},
+error: function (xhr) {
+console.log("Request failed");
+}
+});
+}
+</script>
+
+</body>
+</html>
