@@ -4,35 +4,266 @@ JAVASCRIPT FLOW ANALYSIS REPORT
 
 1. JAVASCRIPT EXECUTION ANALYSIS
 
-Line 25: Defines the function prepareData.
-Code: function prepareData() {
+Line 1903: Checks an IF condition.
+Code: if(i == SectionEnableIndex)
 
-Line 34: Defines the function normalizeData.
-Code: function normalizeData() {
-
-Line 36: Displays a message in the browser console.
-Code: console.log("Normalizing data");
-
-Line 41: Defines the function validateData.
-Code: function validateData() {
-
-Line 48: Defines the function checkRequiredFields.
-Code: function checkRequiredFields() {
-
-Line 50: Displays a message in the browser console.
-Code: console.log("Checking required fields");
-
-Line 55: Defines the function saveRecord.
-Code: function saveRecord() {
-
-Line 62: Defines the function sendRequest.
-Code: function sendRequest() {
-
-Line 64: Displays a message in the browser console.
-Code: console.log("Sending request");
+Line 1908: Executes an alternative ELSE branch.
+Code: else
 
 
 2. INLINE EVENT HANDLERS
+
+Line 60: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 88: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 109: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 130: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 151: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 189: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 217: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 238: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 259: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 280: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 301: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 322: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 343: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 362: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 390: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 424: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 442: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 463: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 497: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 518: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 536: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 555: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 583: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 604: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 625: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 646: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 667: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 688: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 709: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 730: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 749: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 777: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 795: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 813: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 834: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 855: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 876: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 897: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 918: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 940: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 962: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 981: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1001: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 1026: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1044: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1062: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1082: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 1110: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1131: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1152: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1173: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1194: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1215: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1237: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1257: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1281: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1284: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1307: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 1335: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1356: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1377: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1398: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1419: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1440: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1463: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 1491: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1512: div element triggers onclick event.
+Code: fnEnableSubHeading('<? echo $heading_count; ?>')
+
+Line 1540: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1561: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1583: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1604: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1626: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1647: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1668: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1689: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1711: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1734: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1750: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1771: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1793: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1815: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1833: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1851: a element triggers onclick event.
+Code: callLoaderND();
+
+Line 1872: a element triggers onclick event.
+Code: callLoaderND();
 
 
 3. EXTERNAL JAVASCRIPT FILES
@@ -41,60 +272,686 @@ Code: console.log("Sending request");
 4. OVERALL SUMMARY
 
 Found 1 internal script blocks.
-Found 0 inline event handlers.
+Found 84 inline event handlers.
 Found 0 external JS references.
-Generated 9 code explanations.
+Generated 2 code explanations.
 
 5. FUNCTION DEFINITIONS
-
-Function: prepareData()
-Defined at line: 25
-Parameters: None
-
-Function: normalizeData()
-Defined at line: 34
-Parameters: None
-
-Function: validateData()
-Defined at line: 41
-Parameters: None
-
-Function: checkRequiredFields()
-Defined at line: 48
-Parameters: None
-
-Function: saveRecord()
-Defined at line: 55
-Parameters: None
-
-Function: sendRequest()
-Defined at line: 62
-Parameters: None
 
 
 6. EVENT-TO-FUNCTION FLOW
 
 Event: click
-Type: DOM
-Element: #btnSave
-Registered at line: 16
+Type: HTML inline
+Element: div
+Registered at line: 60
 
-  Calls: prepareData()
-    - Function prepareData() defined at line 25.
-        - Calls normalizeData().
-            - Function normalizeData() defined at line 34.
-                - Displays a message in the browser console.
-        - Calls validateData().
-            - Function validateData() defined at line 41.
-                - Calls checkRequiredFields().
-                    - Function checkRequiredFields() defined at line 48.
-                        - Displays a message in the browser console.
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
 
-  Calls: saveRecord()
-    - Function saveRecord() defined at line 55.
-        - Calls sendRequest().
-            - Function sendRequest() defined at line 62.
-                - Displays a message in the browser console.
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 88
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 109
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 130
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 151
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 189
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 217
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 238
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 259
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 280
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 301
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 322
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 343
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 362
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 390
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 424
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 442
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 463
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 497
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 518
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 536
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 555
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 583
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 604
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 625
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 646
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 667
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 688
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 709
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 730
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 749
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 777
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 795
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 813
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 834
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 855
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 876
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 897
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 918
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 940
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 962
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 981
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1001
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1026
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1044
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1062
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1082
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1110
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1131
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1152
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1173
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1194
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1215
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1237
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1257
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1281
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1284
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1307
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1335
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1356
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1377
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1398
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1419
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1440
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1463
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1491
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1512
+
+  Calls: fnEnableSubHeading()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1540
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1561
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1583
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1604
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1626
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1647
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1668
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1689
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1711
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1734
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1750
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1771
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1793
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1815
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1833
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1851
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1872
+
+  Calls: callLoaderND()
+    - Function definition not found in this input file.
 
 
 7. BACKEND REQUEST ANALYSIS
@@ -118,18 +975,1012 @@ No supported browser navigation found.
 11. V7 APPLICATION EXECUTION FLOW
 
 Event: click
-Type: DOM
-Element: #btnSave
-Registered at line: 16
-    -> Event calls prepareData().
-        -> Function prepareData() defined at line 25.
-            -> Calls normalizeData().
-                -> Function normalizeData() defined at line 34.
-            -> Calls validateData().
-                -> Function validateData() defined at line 41.
-                    -> Calls checkRequiredFields().
-                        -> Function checkRequiredFields() defined at line 48.
-    -> Event calls saveRecord().
-        -> Function saveRecord() defined at line 55.
-            -> Calls sendRequest().
-                -> Function sendRequest() defined at line 62.
+Type: HTML inline
+Element: div
+Registered at line: 60
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 88
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 109
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 130
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 151
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 189
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 217
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 238
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 259
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 280
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 301
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 322
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 343
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 362
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 390
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 424
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 442
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 463
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 497
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 518
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 536
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 555
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 583
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 604
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 625
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 646
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 667
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 688
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 709
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 730
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 749
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 777
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 795
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 813
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 834
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 855
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 876
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 897
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 918
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 940
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 962
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 981
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1001
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1026
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1044
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1062
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1082
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1110
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1131
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1152
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1173
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1194
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1215
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1237
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1257
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1281
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1284
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1307
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1335
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1356
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1377
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1398
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1419
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1440
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1463
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1491
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1512
+    -> Event calls fnEnableSubHeading(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1540
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1561
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1583
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1604
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1626
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1647
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1668
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1689
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1711
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1734
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1750
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1771
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1793
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1815
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1833
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1851
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1872
+    -> Event calls callLoaderND(), but its definition was not found in this file.
+
+
+12. V7.2 EVENT-TO-BACKEND EXECUTION FLOW
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 60
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 88
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 109
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 130
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 151
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 189
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 217
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 238
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 259
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 280
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 301
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 322
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 343
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 362
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 390
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 424
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 442
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 463
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 497
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 518
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 536
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 555
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 583
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 604
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 625
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 646
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 667
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 688
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 709
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 730
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 749
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 777
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 795
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 813
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 834
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 855
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 876
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 897
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 918
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 940
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 962
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 981
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1001
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1026
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1044
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1062
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1082
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1110
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1131
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1152
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1173
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1194
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1215
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1237
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1257
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1281
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1284
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1307
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1335
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1356
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1377
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1398
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1419
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1440
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1463
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1491
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: div
+Registered at line: 1512
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1540
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1561
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1583
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1604
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1626
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1647
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1668
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1689
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1711
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1734
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1750
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1771
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1793
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1815
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1833
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1851
+    No backend requests or form submissions detected.
+
+Event: click
+Type: HTML inline
+Element: a
+Registered at line: 1872
+    No backend requests or form submissions detected.

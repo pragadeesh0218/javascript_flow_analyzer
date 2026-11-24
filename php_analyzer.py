@@ -243,67 +243,136 @@ def detect_php_responses(code):
 # 7. MATCH JAVASCRIPT DATA WITH PHP INPUTS
 # =========================================================
 
+
 def match_request_data(
     request_data,
     php_inputs,
     javascript_code=""
 ):
-
     matches = []
 
-    if not request_data:
+    if not request_data and not javascript_code:
         return matches
 
-    # Normal JavaScript object properties
-    data_keys = re.findall(
-        r'([A-Za-z_$][\w$]*)\s*:',
-        request_data
-    )
+    data_keys = []
 
-    # Handle JSON.stringify(variable)
-    stringify_match = re.search(
-        r"JSON\.stringify\s*\(\s*([A-Za-z_$][\w$]*)\s*\)",
-        request_data
-    )
+    # -----------------------------------------------------
+    # 1. Extract keys from ordinary JavaScript objects
+    # -----------------------------------------------------
+    def extract_object_keys(object_code):
+        keys = []
 
-    if stringify_match and javascript_code:
-
-        variable = stringify_match.group(1)
-
-        object_match = re.search(
-            rf"\b(?:let|const|var)\s+{re.escape(variable)}\s*=\s*\{{(.*?)\}}",
-            javascript_code,
-            re.DOTALL
+        pattern = (
+            r"""(?:["']([^"']+)["']|"""
+            r"""([A-Za-z_$][\w$]*))\s*:"""
         )
 
-        if object_match:
+        for match in re.finditer(pattern, object_code):
+            key = match.group(1) or match.group(2)
+            keys.append(key)
 
-            object_keys = re.findall(
-                r'([A-Za-z_$][\w$]*)\s*:',
-                object_match.group(1)
+        return keys
+
+    # -----------------------------------------------------
+    # 2. Find complete JSON.stringify({...}) objects
+    # -----------------------------------------------------
+    if javascript_code:
+        stringify_pattern = re.compile(
+            r"JSON\.stringify\s*\(\s*\{",
+            re.IGNORECASE
+        )
+
+        for match in stringify_pattern.finditer(javascript_code):
+
+            opening_index = javascript_code.find(
+                "{",
+                match.start()
             )
 
-            data_keys.extend(object_keys)
+            # Find the matching closing brace.
+            depth = 0
+            quote = None
+            closing_index = -1
+            i = opening_index
 
+            while i < len(javascript_code):
+                char = javascript_code[i]
+
+                if quote:
+                    if char == "\\":
+                        i += 2
+                        continue
+
+                    if char == quote:
+                        quote = None
+
+                elif char in ("'", '"', "`"):
+                    quote = char
+
+                elif char == "{":
+                    depth += 1
+
+                elif char == "}":
+                    depth -= 1
+
+                    if depth == 0:
+                        closing_index = i
+                        break
+
+                i += 1
+
+            if closing_index != -1:
+                object_code = javascript_code[
+                    opening_index + 1:closing_index
+                ]
+
+                data_keys.extend(
+                    extract_object_keys(object_code)
+                )
+
+    # -----------------------------------------------------
+    # 3. Extract keys from the supplied request data
+    # -----------------------------------------------------
+    if request_data:
+        data_keys.extend(
+            extract_object_keys(request_data)
+        )
+
+    # -----------------------------------------------------
+    # 4. Remove duplicate field names
+    # -----------------------------------------------------
     data_keys = list(dict.fromkeys(data_keys))
 
+    # -----------------------------------------------------
+    # 5. Collect PHP input field names
+    # -----------------------------------------------------
     php_fields = {
         item["field"]
         for item in php_inputs
     }
 
+    # -----------------------------------------------------
+    # 6. Compare JavaScript fields with PHP inputs
+    # -----------------------------------------------------
+    if not data_keys:
+        return matches
+
     for key in data_keys:
 
         if key in php_fields:
             matches.append(
-                f"JavaScript field '{key}' matches PHP input '{key}'."
+                f"JavaScript field '{key}' "
+                f"matches PHP input '{key}'."
             )
+
         else:
             matches.append(
-                f"JavaScript field '{key}' has no matching PHP input detected."
+                f"JavaScript field '{key}' "
+                f"has no matching PHP input detected."
             )
 
     return matches
+
 
 
 # =========================================================

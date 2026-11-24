@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V7.2 Form Backend Test</title>
+</head>
+<body>
+
+    <form id="profileForm" action="save_profile.php" method="POST">
+        <input type="text" name="username">
+        <input type="email" name="email">
+    </form>
+
+    <button id="btnContinue">Continue</button>
+
+    <script>
+        $("#btnContinue").on("click", function(event) {
+            event.preventDefault();
+            submitProfile();
+        });
+
+        function submitProfile() {
+            validateProfile();
+            $("#profileForm").submit();
+        }
+
+        function validateProfile() {
+            console.log("Validating profile");
+        }
+    </script>
+
+</body>
+</html>

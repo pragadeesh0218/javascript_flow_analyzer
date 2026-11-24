@@ -8,7 +8,7 @@ from v6_analyzer import (
 from v7_analyzer import build_execution_flow
 from backend_analyzer import detect_backend_requests
 from php_analyzer import analyze_php_file
-
+from v7_backend_flow import build_backend_execution_flow
 from parser import extract_javascript
 
 from analyzer import (
@@ -27,7 +27,7 @@ from explainer import generate_report
 # CONFIGURATION
 # =========================================================
 
-INPUT_FILE = "input/v7_test2_multiple_calls.html"
+INPUT_FILE = "C:/Users/ads2609025/Desktop/income_section_list.html"
 OUTPUT_FILE = "output/flow_report.txt"
 
 
@@ -448,8 +448,62 @@ def main():
                 f"{indent}-> {step['message']}\n"
             )
 
+
     # -----------------------------------------------------
-    # 12. SAVE REPORT
+    # 12. V7.2 EVENT-TO-BACKEND EXECUTION FLOW
+    # -----------------------------------------------------
+    report += "\n\n12. V7.2 EVENT-TO-BACKEND EXECUTION FLOW\n"
+
+    backend_flows = build_backend_execution_flow(
+        all_events,
+        all_functions,
+        parsed_data["forms"]
+    )
+
+    if not backend_flows:
+        report += "\nNo event-to-backend execution flows found.\n"
+
+    for flow in backend_flows:
+        report += (
+            f"\nEvent: {flow['event']}\n"
+            f"Type: {flow['type']}\n"
+            f"Element: {flow['element']}\n"
+            f"Registered at line: {flow['line']}\n"
+        )
+
+        if not flow["steps"]:
+            report += "    No backend requests or form submissions detected.\n"
+
+        for step in flow["steps"]:
+            indent = "    " * (step["depth"] + 1)
+            report += f"{indent}-> {step['message']}\n"
+
+            endpoint = step.get("endpoint", "")
+
+            # Check whether a relative PHP endpoint exists.
+            if endpoint.lower().endswith(".php"):
+                endpoint_url = urlsplit(endpoint)
+
+                if not endpoint_url.scheme and not endpoint_url.netloc:
+                    php_path = resolve_php_endpoint(
+                        endpoint,
+                        input_path
+                    )
+
+                    if php_path and php_path.exists():
+                        report += (
+                            f"{indent}   PHP file found: "
+                            f"{php_path}\n"
+                        )
+                    else:
+                        report += (
+                            f"{indent}   PHP file not found: "
+                            f"{endpoint}\n"
+                        )
+
+
+    # -----------------------------------------------------
+    # 13. SAVE REPORT
     # -----------------------------------------------------
 
     output_path.parent.mkdir(
